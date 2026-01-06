@@ -11,6 +11,8 @@ data segment
     mesaj_succes db 0Dh, 0Ah, 'Octetii cititi cu succes!$'
     newline db 0Dh, 0Ah, '$'
 
+    sir db 16 dup(?) ; octetii convertiti
+
 data ends
 
 code segment
@@ -43,12 +45,48 @@ code segment
             call validare_hex
             jc caractere_gresite
 
+            call convertire_ascii_hex
+
             ; succes
             mov Ah, 09h
             mov dx, offset mesaj_succes
             int 21h
             call afisare_enter
             jmp sfarsit
+
+            convertire_ascii_hex:
+                mov cl, [buffer + 1] ; numarul de caractere ascii
+                shr cl, 1 ; numarul de octeti = caractere / 2
+                xor ch, ch ; extindere la word
+
+                mov si, offset buffer + 2
+                mov di, offset sir
+
+                conv_loop:
+                    lodsb
+                    call hex_char_la_binar
+                    shl al, 4 ; muta in bitii superiori (face loc in bitii inferiori pentru al doilea caracter)
+                    mov bl, al
+
+                    lodsb
+                    call hex_char_la_binar
+                    or bl, al ; combina rezultatele
+
+                    mov [di], bl ; scrie rezultatul
+                    inc di ; creste indexul sirului destinatie
+
+                    loop conv_loop
+                    ret
+
+            hex_char_la_binar:
+                cmp al, '9'
+                jbe cifra
+                sub al, 'A' - 10
+                ret
+
+            cifra:
+                sub al, '0'
+                ret
 
             caractere_gresite:
                 mov ah, 09h
