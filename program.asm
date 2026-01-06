@@ -39,12 +39,24 @@ code segment
             test al, 1
             jnz lungime_gresita
 
+            ; validare hex
+            call validare_hex
+            jc caractere_gresite
+
             ; succes
             mov Ah, 09h
             mov dx, offset mesaj_succes
             int 21h
             call afisare_enter
             jmp sfarsit
+
+            caractere_gresite:
+                mov ah, 09h
+                mov dx, offset mesaj_eroare_hex
+                int 21h
+                call afisare_enter 
+                call afisare_enter
+                jmp citeste
 
             lungime_gresita:
                 mov ah, 09h
@@ -53,6 +65,34 @@ code segment
                 call afisare_enter
                 call afisare_enter
                 jmp citeste
+
+            validare_hex:
+                mov cl, [buffer + 1] ; numarul de caractere
+                xor ch, ch ; extindere la 16 biti
+                mov si, offset buffer + 2 ; primul caracter
+
+                verificare_caracter:
+                    lodsb
+
+                    cmp al, '0'
+                    jb hex_invalid
+                    cmp al, '9'
+                    jbe hex_ok
+
+
+                    cmp al, 'A'
+                    jb hex_invalid
+                    cmp al, 'F'
+                    jbe hex_ok
+
+                    hex_invalid:
+                        stc
+                        ret
+
+                    hex_ok:
+                        loop verificare_caracter
+                        clc
+                        ret
 
             afisare_enter:
                 ; enter dupa
