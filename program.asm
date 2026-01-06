@@ -85,6 +85,7 @@ code segment
                     cmp al, 'F'
                     jbe hex_ok
 
+                    ;seteaza carry flag la 1 sau 0 in functie de rezultatul validarii
                     hex_invalid:
                         stc
                         ret
