@@ -238,10 +238,6 @@ Octetii cititi cu succes!
 - Sortare descrescătoare (Bubble Sort)
 - Găsire octet cu max biți 1 (>3)
 - Afișare poziție
-
-### ❌ Cerința 6: Rotiri și Shiftări
-**Notă:** Această cerință nu a fost implementată în versiunea curentă.
-
 ---
 
 ## 6. Compilare și Testare
