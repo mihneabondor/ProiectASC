@@ -2,13 +2,6 @@
 # Documentație Proiect ASM
 ## Programare în Limbaj de Asamblare - 8086
 
-**Echipa:** [Nume Echipă]  
-**Studenți:** [Nume Student 1], [Nume Student 2], [Nume Student 3]  
-**Data:** Ianuarie 2026  
-**Cadre didactice:** drd. ing. Andron Flavia, drd. Bidașca Carina
-
----
-
 ## 1. Descrierea Generală a Programului
 
 Acest program implementează un sistem de procesare a datelor în limbaj de asamblare 8086, care citește un șir de octeți în format hexazecimal de la utilizator și efectuează operații bitwise, aritmetice și de manipulare a datelor.
